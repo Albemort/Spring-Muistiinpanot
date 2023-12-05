@@ -19,6 +19,14 @@
     <label for="eventDate">Event Date:</label>
     <input type="text" id="eventDate" name="eventDate">
 
+    <label for="category">Choose a category:</label>
+    <select name="category" id="category">
+        <option value="Hobby">Hobby</option>
+        <option value="Work">Work</option>
+        <option value="School">School</option>
+        <option value="Other">Other</option>
+    </select>
+
     <!-- Add other fields as needed -->
 
     <button type="submit">Create Event</button>
@@ -43,11 +51,15 @@
         <td th:text="${event.eventTitle}">[EVENT_TITLE]</td>
         <td th:text="${event.eventDescription}">[EVENT_DESCRIPTION]</td>
         <td th:text="${event.eventDate}">[EVENT_DATE]</td>
-        <td>[EVENT_CATEGORY]</td>
         <td>
-            <button type="button">Edit</button>
-            <button type="button">Delete</button>
+            <span th:each="category: ${event.categories}">
+                <span th:text="${category.categoryName}">[EVENT_CATEGORY]</span>
+            </span>
         </td>
+    <th>
+        <button type="button">Edit</button>
+        <button type="button">Delete</button>
+    </th>
     </tr>
     <!-- Add more rows for additional events -->
     </tbody>
