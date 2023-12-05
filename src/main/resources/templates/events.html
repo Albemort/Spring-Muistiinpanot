@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event CRUD</title>
+</head>
+<body>
+
+<!-- Create Event Form -->
+<form th:action="@{/events/create}" method="POST">
+    <!-- Event Title -->
+    <label for="eventTitle">Event Title:</label>
+    <input type="text" id="eventTitle" name="eventTitle" required>
+
+    <label for="eventDescription">Event Description:</label>
+    <input type="text" id="eventDescription" name="eventDescription">
+
+    <label for="eventDate">Event Date:</label>
+    <input type="text" id="eventDate" name="eventDate">
+
+    <!-- Add other fields as needed -->
+
+    <button type="submit">Create Event</button>
+</form>
+
+<!-- Read All Events -->
+<h2>All Events</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Event Title</th>
+        <th>Event Description</th>
+        <th>Event Date</th>
+        <th>Category</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Display all events here -->
+    <!-- Replace [EVENT_TITLE], [EVENT_DESCRIPTION], [EVENT_DATE], and [EVENT_TIME] with actual values -->
+    <tr th:each="event: ${events}">
+        <td th:text="${event.eventTitle}">[EVENT_TITLE]</td>
+        <td th:text="${event.eventDescription}">[EVENT_DESCRIPTION]</td>
+        <td th:text="${event.eventDate}">[EVENT_DATE]</td>
+        <td>[EVENT_CATEGORY]</td>
+        <td>
+            <button type="button">Edit</button>
+            <button type="button">Delete</button>
+        </td>
+    </tr>
+    <!-- Add more rows for additional events -->
+    </tbody>
+</table>
+
+</body>
+</html>
