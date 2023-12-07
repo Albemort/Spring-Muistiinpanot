@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -27,7 +28,7 @@ public class Event extends AbstractPersistable<Long> {
     private String eventDescription;
 
     @Column(name = "event_date")
-    private String eventDate;
+    private LocalDate eventDate;
 
     @JoinTable(
             name = "event_categories",
