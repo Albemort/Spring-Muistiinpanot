@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 @Controller
 public class EventController {
 
@@ -29,25 +33,40 @@ public class EventController {
                          @RequestParam String eventDate,
                          @RequestParam String category) {
 
-        Category existingCategory = categoryRepository.findByCategoryName(category)
-                .orElseGet(() -> {
-                    Category newCategory = new Category();
-                    newCategory.setCategoryName(category);
-                    return categoryRepository.save(newCategory);
-                });
+        try {
+            Category existingCategory = categoryRepository.findByCategoryName(category)
+                    .orElseGet(() -> {
+                        Category newCategory = new Category();
+                        newCategory.setCategoryName(category);
+                        return categoryRepository.save(newCategory);
+                    });
 
-        // Create a new Event
-        Event newEvent = new Event();
-        newEvent.setEventTitle(eventTitle);
-        newEvent.setEventDescription(eventDescription);
-        newEvent.setEventDate(eventDate);
+            // Create a new Event
+            Event newEvent = new Event();
+            newEvent.setEventTitle(eventTitle);
+            newEvent.setEventDescription(eventDescription);
 
-        // Associate the Event with the Category
-        newEvent.getCategories().add(existingCategory);
+            // Parse the String eventDate to Java.time object ld
+            try {
+                DateTimeFormatter f = DateTimeFormatter.ofPattern("uuuu-MM-dd");
+                LocalDate ld = LocalDate.parse(eventDate, f);
+                newEvent.setEventDate(ld);
+            } catch (DateTimeParseException e) {
+                System.err.println("Error parsing date: " + eventDate);
+                e.printStackTrace();
+                return "redirect:/events";
+            }
 
-        // Save the Event
-        eventRepository.save(newEvent);
+            // Associate the Event with the Category
+            newEvent.getCategories().add(existingCategory);
 
+            // Save the Event
+            eventRepository.save(newEvent);
+
+        } catch (Exception e) {
+            System.err.println("Exception error: " + e);
+            e.printStackTrace();
+        }
         return "redirect:/events";
     }
 
