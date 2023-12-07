@@ -17,7 +17,7 @@
     <input type="text" id="eventDescription" name="eventDescription">
 
     <label for="eventDate">Event Date:</label>
-    <input type="text" id="eventDate" name="eventDate">
+    <input type="date" id="eventDate" name="eventDate" required>
 
     <label for="category">Choose a category:</label>
     <select name="category" id="category">
@@ -57,8 +57,12 @@
             </span>
         </td>
     <th>
-        <button type="button">Edit</button>
-        <button type="button">Delete</button>
+        <form th:action="@{/events/edit}" method="POST">
+            <button type="button">Edit</button>
+        </form>
+        <form th:action="@{/events/delete}" method="POST">
+            <button type="button" >Delete</button>
+        </form>
     </th>
     </tr>
     <!-- Add more rows for additional events -->
