@@ -22,6 +22,12 @@ public class EventController {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    public EventController(EventRepository eventRepository, CategoryRepository categoryRepository) {
+        this.eventRepository = eventRepository;
+        this.categoryRepository = categoryRepository;
+    }
+
+
     // Get path to create events from the UI
     @GetMapping("/events/create")
     public String createEvent1(Model model) {
