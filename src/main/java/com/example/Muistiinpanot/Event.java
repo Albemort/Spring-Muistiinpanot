@@ -2,6 +2,7 @@ package com.example.Muistiinpanot;
 
 import jakarta.persistence.*;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,7 +12,6 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -21,6 +21,7 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true)
 public class Event extends AbstractPersistable<Long> {
 
+    @NotEmpty
     @Column(name = "event_title", nullable = false)
     private String eventTitle;
 
