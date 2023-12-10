@@ -1,15 +1,16 @@
 package com.example.Muistiinpanot;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Optional;
 
 @Controller
 public class EventController {
@@ -27,17 +28,42 @@ public class EventController {
         return "events";
     }
 
+    @GetMapping("/addevent")
+    public String addevent(Model model) {
+        model.addAttribute("categories", categoryRepository.findAll());
+        return "addevent";
+    }
+
+    @GetMapping("/events/{id}")
+    public String getOneEvent(Model model, @PathVariable Long id) {
+        model.addAttribute("events", eventRepository.getReferenceById(id));
+        model.addAttribute("categories", categoryRepository.getReferenceById(id));
+        return "events";
+    }
+
+    @DeleteMapping("/events/{id}")
+    public String deleteEvent(@PathVariable Long id) {
+        Optional<Event> event = eventRepository.findById(id);
+
+        if (event.isPresent()) {
+            eventRepository.deleteById(id);
+            return "redirect:/events";
+        } else {
+            return "redirect:/events";
+        }
+    }
+
     @PostMapping("/events/create")
-    public String create(@RequestParam String eventTitle,
+    public String createEvent(@RequestParam String eventTitle,
                          @RequestParam String eventDescription,
                          @RequestParam String eventDate,
-                         @RequestParam String category) {
+                         @RequestParam String eventCategory) {
 
         try {
-            Category existingCategory = categoryRepository.findByCategoryName(category)
+            Category existingCategory = categoryRepository.findByCategoryName(eventCategory)
                     .orElseGet(() -> {
                         Category newCategory = new Category();
-                        newCategory.setCategoryName(category);
+                        newCategory.setCategoryName(eventCategory);
                         return categoryRepository.save(newCategory);
                     });
 
