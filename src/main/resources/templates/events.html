@@ -7,33 +7,14 @@
 </head>
 <body>
 
-<!-- Create Event Form -->
-<form th:action="@{/events/create}" method="POST">
-    <!-- Event Title -->
-    <label for="eventTitle">Event Title:</label>
-    <input type="text" id="eventTitle" name="eventTitle" required>
-
-    <label for="eventDescription">Event Description:</label>
-    <input type="text" id="eventDescription" name="eventDescription">
-
-    <label for="eventDate">Event Date:</label>
-    <input type="date" id="eventDate" name="eventDate" required>
-
-    <label for="category">Choose a category:</label>
-    <select name="category" id="category">
-        <option value="Hobby">Hobby</option>
-        <option value="Work">Work</option>
-        <option value="School">School</option>
-        <option value="Other">Other</option>
-    </select>
-
-    <!-- Add other fields as needed -->
-
-    <button type="submit">Create Event</button>
-</form>
+<ul class="navibar">
+    <li class="navibar"><a class="navibar" th:href="@{/events}">Home</a></li>
+    <li class="navibar"><a class="navibar" th:href="@{/addevent}">Add Event</a></li>
+    <li class="navibar"><a class="navibar" th:href="@{/addcategory}">Add Category</a></li>
+</ul>
 
 <!-- Read All Events -->
-<h2>All Events</h2>
+<h2>Events</h2>
 <table border="1">
     <thead>
     <tr>
@@ -57,11 +38,10 @@
             </span>
         </td>
     <th>
-        <form th:action="@{/events/edit}" method="POST">
-            <button type="button">Edit</button>
-        </form>
-        <form th:action="@{/events/delete}" method="POST">
-            <button type="button" >Delete</button>
+        <button type="button">Edit</button>
+        <form th:action="@{'/events/' + *{event.id}}" method="POST">
+            <input type="hidden" name="_method" value="DELETE" />
+            <button type="submit">Delete</button>
         </form>
     </th>
     </tr>
