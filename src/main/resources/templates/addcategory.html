@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Event CRUD</title>
+</head>
+<body>
+<ul class="navibar">
+    <li class="navibar"><a class="navibar" th:href="@{/events}">Home</a></li>
+    <li class="navibar"><a class="navibar" th:href="@{/addevent}">Add Event</a></li>
+    <li class="navibar"><a class="navibar" th:href="@{/addcategory}">Add Category</a></li>
+</ul>
+
+<h2>Add Categories</h2>
+<!-- Create Category Form -->
+<form th:action="@{/category/create}" method="POST">
+    <!-- Category Name -->
+    <label for="category">Category Name:</label>
+    <input type="text" id="category" name="category" required>
+
+    <button type="submit">Create Category</button>
+</form>
+
+    <h1>Existing Categories</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Category Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="category: ${categories}">
+                <td th:text="${category.categoryName}">[CATEGORY_NAME]</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
