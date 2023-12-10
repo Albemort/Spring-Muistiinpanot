@@ -12,27 +12,33 @@ public class CategoryController {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    @GetMapping("/addcategory")
-    public String addcategory(Model model) {
+    // Get path to create new categories from the UI
+    @GetMapping("/category/create")
+    public String createCategory1(Model model) {
         model.addAttribute("categories", categoryRepository.findAll());
         return "addcategory";
     }
 
+    // Post path to create new categories and insert them to db
     @PostMapping("/category/create")
-    public String createCategory(@RequestParam String category) {
+    public String createCategory2(@RequestParam String category) {
+        // Try to find categories with the same name
         try {
             Category existingCategory = categoryRepository.findByCategoryName(category).orElse(null);
 
+            // If duplicates not found, existingCategory = null
+            // and save it to db.
             if (existingCategory == null) {
                 Category newCategory = new Category();
                 newCategory.setCategoryName(category);
                 categoryRepository.save(newCategory);
             }
-
+        // Throws error if category already exists and redirects back
         } catch (Exception e) {
             System.err.println("Exception error: " + e);
             e.printStackTrace();
+            return "redirect:/category/create";
         }
-        return "redirect:/addcategory";
+        return "redirect:/category/create";
     }
 }
