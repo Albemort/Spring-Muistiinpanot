@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Event CRUD</title>
+</head>
+<body>
+
+<div th:replace="fragments/layout :: links"></div>
+
+<h2>Add Events</h2>
+<!-- Create Event Form -->
+<form th:action="@{'/events/' + ${id}}" method="POST" >
+    <input type="hidden" name="_method" value="PUT" />
+    <!-- Event Title -->
+    <label for="eventTitle">Event Title:</label>
+    <input th:each="event: ${events}" th:value="${event.eventTitle}" type="text" id="eventTitle" name="eventTitle" required>
+
+    <label for="eventDescription">Event Description:</label>
+    <input th:each="event: ${events}" th:value="${event.eventDescription}" type="text" id="eventDescription" name="eventDescription">
+
+    <label for="eventDate">Event Date:</label>
+    <input th:each="event: ${events}" th:value="${event.eventDate}" type="date" id="eventDate" name="eventDate" required>
+
+    <label for="eventCategory">Choose a category:</label>
+    <select name="eventCategory" id="eventCategory">
+        <option th:each="category: ${categories}" th:value="${category.categoryName}" th:text="${category.categoryName}"></option>
+    </select>
+
+    <!-- Add other fields as needed -->
+
+    <button type="submit">Update Event</button>
+</form>
+
+</body>
+</html>
