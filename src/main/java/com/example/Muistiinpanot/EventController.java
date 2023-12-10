@@ -104,13 +104,20 @@ public class EventController {
         updateEvent.setEventTitle(eventTitle);
         updateEvent.setEventDescription(eventDescription);
 
-        DateTimeFormatter f = DateTimeFormatter.ofPattern("uuuu-MM-dd");
-        LocalDate ld = LocalDate.parse(eventDate, f);
-        updateEvent.setEventDate(ld);
+        // Parse the String eventDate to Java.time object ld
+        try {
+            DateTimeFormatter f = DateTimeFormatter.ofPattern("uuuu-MM-dd");
+            LocalDate ld = LocalDate.parse(eventDate, f);
+            updateEvent.setEventDate(ld);
+        // Throws error if fails to parse the date to correct format
+        } catch (DateTimeParseException e) {
+            System.err.println("Error parsing date: " + eventDate);
+            e.printStackTrace();
+            return "redirect:/events";
+        }
 
         Category existingCategory = categoryRepository.findByCategoryName(eventCategory)
                 .orElseThrow(ChangeSetPersister.NotFoundException::new);
-
 
         List<Category> existingCategories = new ArrayList<>();
         existingCategories.add(existingCategory);
