@@ -5,11 +5,8 @@
     <title>Event CRUD</title>
 </head>
 <body>
-<ul class="navibar">
-    <li class="navibar"><a class="navibar" th:href="@{/events}">Home</a></li>
-    <li class="navibar"><a class="navibar" th:href="@{/addevent}">Add Event</a></li>
-    <li class="navibar"><a class="navibar" th:href="@{/addcategory}">Add Category</a></li>
-</ul>
+
+<div th:replace="fragments/layout :: links"></div>
 
 <h2>Add Events</h2>
 <!-- Create Event Form -->
