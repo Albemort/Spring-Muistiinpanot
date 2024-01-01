@@ -16,7 +16,9 @@
     <tr>
         <th>Event Title</th>
         <th>Event Description</th>
+        <th>Event Time</th>
         <th>Event Date</th>
+        <th>Event Due</th>
         <th>Category</th>
         <th>Action</th>
     </tr>
@@ -27,7 +29,9 @@
     <tr th:each="event: ${events}">
         <td th:text="${event.eventTitle}">[EVENT_TITLE]</td>
         <td th:text="${event.eventDescription}">[EVENT_DESCRIPTION]</td>
+        <td th:text="${event.eventTime}">[EVENT_TIME]</td>
         <td th:text="${event.eventDate}">[EVENT_DATE]</td>
+        <td th:text="${event.eventDue}">[EVENT_DUE_DATE]</td>
         <td>
             <span th:each="category: ${event.categories}">
                 <span th:text="${category.categoryName}">[EVENT_CATEGORY]</span>
@@ -37,7 +41,7 @@
         <form th:action="@{'/events/edit/' + *{event.id}}" method="GET">
             <button type="submit">Edit</button>
         </form>
-        <form th:action="@{'/events/' + *{event.id}}" method="POST">
+        <form th:action="@{'/api/events/' + *{event.id}}" method="POST">
             <input type="hidden" name="_method" value="DELETE" />
             <button type="submit">Delete</button>
         </form>
