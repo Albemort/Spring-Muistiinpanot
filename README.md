@@ -38,6 +38,16 @@ Tapahtuma-entiteetti tallentaa yksittäisten tapahtumien tiedot tietokantaan. Jo
 
 Sovellus tarjoaa RESTful-rajapinnan HTTP-pyyntöjen kautta, mikä mahdollistaa helpon vuorovaikutuksen tapahtumien ja kategorioiden kanssa. RESTful-rajapinnan polut on suunniteltu noudattamaan REST-arkkitehtuurin periaatteita.
 
+### 5.1 Kategoriat
+
+- **Luo uusi kategoria:** `POST /api/category`
+
+### 5.2 Tapahtumat
+
+- **Luo uusi tapahtuma:** `POST /api/events`
+- **Päivitä tapahtuma:** `PUT /api/events/{id}`
+- **Poista tapahtuma:** `DELETE /api/events/{id}`
+
 ## 6. Tietokannan Alustaminen
 
 `DatabaseInitializer` on komponentti, joka käynnistyy sovelluksen käynnistyessä. Sen tehtävänä on tarkistaa, ovatko kategoriat jo tietokannassa, ja lisätä oletuskategoriat, mikäli niitä ei vielä ole.
