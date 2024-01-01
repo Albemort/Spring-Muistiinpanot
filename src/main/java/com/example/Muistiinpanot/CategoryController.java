@@ -20,7 +20,7 @@ public class CategoryController {
     }
 
     // Post path to create new categories and insert them to db
-    @PostMapping("/category/create")
+    @PostMapping("/api/category")
     public String createCategory2(@RequestParam String category) {
         // Try to find categories with the same name
         try {
