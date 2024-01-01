@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
@@ -36,10 +37,12 @@ public class EventController {
     }
 
     // Post path to create new events
-    @PostMapping("/events/create")
+    @PostMapping("/api/events")
     public String createEvent2(@RequestParam String eventTitle,
                               @RequestParam String eventDescription,
-                              @RequestParam String eventDate,
+                               @RequestParam String eventTime,
+                               @RequestParam String eventDate,
+                              @RequestParam String eventDue,
                               @RequestParam String eventCategory) throws ChangeSetPersister.NotFoundException {
 
         // Find the category from the database
@@ -54,14 +57,25 @@ public class EventController {
         newEvent.setEventTitle(eventTitle);
         newEvent.setEventDescription(eventDescription);
 
-        // Parse the String eventDate to Java.time object ld
+
+        // Parse eventDate, eventDue and eventTime
         try {
             DateTimeFormatter f = DateTimeFormatter.ofPattern("uuuu-MM-dd");
+            DateTimeFormatter f2 = DateTimeFormatter.ofPattern("HH:mm");
+
+            LocalTime lt = LocalTime.parse(eventTime, f2);
+
             LocalDate ld = LocalDate.parse(eventDate, f);
+            LocalDate ld2 = LocalDate.parse(eventDue, f);
+
+            newEvent.setEventTime(lt);
             newEvent.setEventDate(ld);
+            newEvent.setEventDue(ld2);
         // Throws error if fails to parse the date to correct format
         } catch (DateTimeParseException e) {
+            System.err.println("Error parsing time: " + eventTime);
             System.err.println("Error parsing date: " + eventDate);
+            System.err.println("Error parsing date: " + eventDue);
             e.printStackTrace();
             return "redirect:/events";
         }
@@ -82,7 +96,7 @@ public class EventController {
     }
 
     // Delete single event by id
-    @DeleteMapping("/events/{id}")
+    @DeleteMapping("/api/events/{id}")
     public String deleteEvent(@PathVariable Long id) {
         Optional<Event> event = eventRepository.findById(id);
 
@@ -97,10 +111,12 @@ public class EventController {
     }
 
     // Update single event by id
-    @PutMapping("/events/{id}")
+    @PutMapping("/api/events/{id}")
     public String updateEvent(@RequestParam String eventTitle,
                               @RequestParam String eventDescription,
+                              @RequestParam String eventTime,
                               @RequestParam String eventDate,
+                              @RequestParam String eventDue,
                               @RequestParam String eventCategory,
                               @PathVariable Long id) throws ChangeSetPersister.NotFoundException {
 
@@ -113,11 +129,21 @@ public class EventController {
         // Parse the String eventDate to Java.time object ld
         try {
             DateTimeFormatter f = DateTimeFormatter.ofPattern("uuuu-MM-dd");
+            DateTimeFormatter f2 = DateTimeFormatter.ofPattern("HH:mm");
+
+            LocalTime lt = LocalTime.parse(eventTime, f2);
+
             LocalDate ld = LocalDate.parse(eventDate, f);
+            LocalDate ld2 = LocalDate.parse(eventDue, f);
+
+            updateEvent.setEventTime(lt);
             updateEvent.setEventDate(ld);
+            updateEvent.setEventDue(ld2);
         // Throws error if fails to parse the date to correct format
         } catch (DateTimeParseException e) {
+            System.err.println("Error parsing time: " + eventTime);
             System.err.println("Error parsing date: " + eventDate);
+            System.err.println("Error parsing date: " + eventDue);
             e.printStackTrace();
             return "redirect:/events";
         }
