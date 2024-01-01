@@ -34,7 +34,7 @@ public class EventControllerUnitTest {
                 .thenReturn(Optional.of(new Category("TestCategory")));
 
         // Test createEvent2 method
-        String result = eventController.createEvent2("Test Event", "Test Description", "2023-01-01", "TestCategory");
+        String result = eventController.createEvent2("Test Event", "Test Description", "11:00", "2023-01-01", "2023-01-02", "TestCategory");
 
         // Verify that save method is called
         verify(eventRepository).save(any(Event.class));
@@ -64,7 +64,7 @@ public class EventControllerUnitTest {
                 .thenReturn(Optional.of(new Category("TestCategory")));
 
         // Test updateEvent method
-        String result = eventController.updateEvent("Updated Event", "Updated Description", "2023-01-01", "TestCategory", eventId);
+        String result = eventController.updateEvent("Updated Event", "Updated Description", "11:00", "2023-01-01", "2023-01-02", "TestCategory", eventId);
 
         // Verify that save method is called
         verify(eventRepository).save(any(Event.class));
