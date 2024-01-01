@@ -10,7 +10,7 @@
 
 <h2>Add Events</h2>
 <!-- Create Event Form -->
-<form th:action="@{'/events/' + ${id}}" method="POST" >
+<form th:action="@{'/api/events/' + ${id}}" method="POST" >
     <input type="hidden" name="_method" value="PUT" />
     <!-- Event Title -->
     <label for="eventTitle">Event Title:</label>
@@ -19,8 +19,14 @@
     <label for="eventDescription">Event Description:</label>
     <input th:each="event: ${events}" th:value="${event.eventDescription}" type="text" id="eventDescription" name="eventDescription">
 
+    <label for="eventTime">Event Time:</label>
+    <input th:each="event: ${events}" th:value="${event.eventTime}" type="time" id="eventTime" name="eventTime" required>
+
     <label for="eventDate">Event Date:</label>
     <input th:each="event: ${events}" th:value="${event.eventDate}" type="date" id="eventDate" name="eventDate" required>
+
+    <label for="eventDue">Event Due:</label>
+    <input th:each="event: ${events}" th:value="${event.eventDue}" type="date" id="eventDue" name="eventDue" required>
 
     <label for="eventCategory">Choose a category:</label>
     <select name="eventCategory" id="eventCategory">
